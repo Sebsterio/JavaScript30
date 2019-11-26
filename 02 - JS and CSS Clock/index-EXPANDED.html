@@ -74,6 +74,23 @@
       }
     </style>
 
-    <script src="./script.js"></script>
+    <script>
+      function updateClock() {
+        const now = new Date();
+        const secDeg = -90 + (now.getSeconds() / 60) * 360;
+        const minDeg = -90 + (now.getMinutes() / 60) * 360;
+        const hourDeg = -90 + (now.getHours() / 12) * 360;
+
+        secHand.style.transform = `translate(100%, 0) rotate(${secDeg}deg)`;
+        minHand.style.transform = `translate(100%, 0) rotate(${minDeg}deg) scaleX(.8)`;
+        hourHand.style.transform = `translate(100%, 0) rotate(${hourDeg}deg) scaleX(.6)`;
+      }
+
+      const secHand = document.getElementById("hand-sec");
+      const minHand = document.getElementById("hand-min");
+      const hourHand = document.getElementById("hand-hour");
+
+      setInterval(updateClock, 1000);
+    </script>
   </body>
 </html>
