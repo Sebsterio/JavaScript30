@@ -32,3 +32,11 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 - Panels expand on 'mouseover' instead of 'click'.
 - Opening a panel closes the previous one.
 - more dynamic CSS transitions.
+
+06 - Type Ahead
+
+- Results are sorted by a selected property
+
+07 - Array Cardio 2
+
+- find() and findIndex() are abstracted
