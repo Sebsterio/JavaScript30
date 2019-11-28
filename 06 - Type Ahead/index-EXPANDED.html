@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="search-form">
+      <select class="sort">
+        <option value="rank" selected>by population</option>
+        <option value="latitude">by latitude</option>
+        <option value="longitude">by longitude</option>
+      </select>
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      const cities = [];
+      fetch(endpoint)
+        .then(blob => blob.json())
+        .then(data => cities.push(...data));
+
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
+      function matchCities(str, cities) {
+        const regex = new RegExp(str, "i");
+        return cities.filter(place => {
+          return place.city.match(regex) || place.state.match(regex);
+        });
+      }
+
+      function displayMatches(e, input) {
+        if (!input) input = this;
+        const matchedCities = matchCities(input.value, cities);
+        const html = matchedCities
+          .map(place => {
+            const regex = RegExp(input.value, "gi");
+            const city = place.city.replace(
+              regex,
+              `<span class="hl">${input.value}</span>`
+            );
+            const state = place.state.replace(
+              regex,
+              `<span class="hl">${input.value}</span>`
+            );
+            return `<li>
+              <span class="name">${city}, ${state}</span>
+              <span class="population">${numberWithCommas(
+                place.population
+              )}</span>
+            </li>`;
+          })
+          .join("");
+        suggestionsEl.innerHTML = html;
+      }
+
+      function sortCities() {
+        cities.sort((cur, next) => cur[this.value] - next[this.value]);
+        if (searchEl.value) displayMatches(null, searchEl);
+      }
+
+      const sortEl = document.querySelector(".sort");
+      const searchEl = document.querySelector(".search");
+      const suggestionsEl = document.querySelector(".suggestions");
+
+      searchEl.addEventListener("keyup", displayMatches);
+      searchEl.addEventListener("change", displayMatches);
+      sortEl.addEventListener("change", sortCities);
+    </script>
+  </body>
+</html>
