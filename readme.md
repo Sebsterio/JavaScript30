@@ -43,4 +43,4 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 08 - Canvas
 
-- actions can be undone
+- Actions can be undone
