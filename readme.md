@@ -40,3 +40,7 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 07 - Array Cardio 2
 
 - find() and findIndex() are abstracted
+
+08 - Canvas
+
+- actions can be undone
