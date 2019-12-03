@@ -44,3 +44,8 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 08 - Canvas
 
 - Actions can be undone
+
+10 - Checkboxes
+
+- Clicking two boxes while holding Shift checks OR UNCHECKS all boxes in between, to match the state of the first box clicked
+- The same operation is performed on subsequent clicks as long as shift is held (matching the very first box)
