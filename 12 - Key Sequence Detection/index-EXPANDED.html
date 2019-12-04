@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Key Detection</title>
+	</head>
+	<body>
+		<p>type color names</p>
+		<script src="data.js"></script>
+		<script>
+			const keywords = CSScolors;
+			let keyLog = [];
+
+			// get the length of the longest keyword
+			maxKeywordLength = keywords.reduce((acc, keyword) => {
+				return acc > keyword.length ? acc : keyword.length;
+			}, 0);
+
+			function logKey(e) {
+				keyLog.push(e.key);
+
+				// limit keyLog length to that of the longest keyword
+				keyLog = keyLog.splice(-maxKeywordLength);
+
+				/* match each keyword with the keyLog and select
+				the longest keyword matching the ending of the keyLog */
+				const string = keyLog.join("");
+				let longestMatch = "";
+				keywords.forEach(keyword => {
+					const regex = new RegExp(keyword + "$", "i");
+					if (string.match(regex) && keyword.length > longestMatch.length) {
+						longestMatch = keyword;
+					}
+				});
+				if (longestMatch) {
+					document.body.style["background-color"] = longestMatch;
+				}
+			}
+
+			document.addEventListener("keyup", logKey);
+		</script>
+	</body>
+</html>

@@ -49,3 +49,9 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 - Clicking two boxes while holding Shift checks OR UNCHECKS all boxes in between, to match the state of the first box clicked
 - The same operation is performed on subsequent clicks as long as shift is held (matching the very first box)
+
+12 - keyLog
+
+- Arbitrary number of availble keywords
+- If the key sequence matches multiple keywords, the recently matched one takes precedence (e.g. gold < goldenrod)
+- Longer keywords have higher precedence (red < darkred)
