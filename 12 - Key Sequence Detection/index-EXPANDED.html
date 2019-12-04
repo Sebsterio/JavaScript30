@@ -4,8 +4,26 @@
 		<meta charset="UTF-8" />
 		<title>Key Detection</title>
 	</head>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			background: #7a419b;
+			min-height: 100vh;
+			align-items: center;
+			justify-content: center;
+		}
+		div {
+			padding: 16px;
+			background: rgba(255, 255, 255, 0.2);
+			font-family: "helvetica";
+			font-size: 20px;
+			box-shadow: inset 0 0 3px 0 rgba(255, 255, 255, 0.5);
+		}
+	</style>
 	<body>
-		<p>type color names</p>
+		<div>Type in any colour name</div>
 		<script src="data.js"></script>
 		<script>
 			const keywords = CSScolors;
