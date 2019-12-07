@@ -222,32 +222,33 @@
 		</div>
 
 		<script>
-			function debounce(func, wait = 20, immediate = true) {
-				var timeout;
-				return function() {
-					var context = this,
-						args = arguments;
-					var later = function() {
-						timeout = null;
-						if (!immediate) func.apply(context, args);
-					};
-					var callNow = immediate && !timeout;
-					clearTimeout(timeout);
-					timeout = setTimeout(later, wait);
-					if (callNow) func.apply(context, args);
-				};
-			}
-
+			// function debounce(func, wait = 20, immediate = true) {
+			// 	var timeout;
+			// 	return function() {
+			// 		var context = this,
+			// 			args = arguments;
+			// 		var later = function() {
+			// 			timeout = null;
+			// 			if (!immediate) func.apply(context, args);
+			// 		};
+			// 		var callNow = immediate && !timeout;
+			// 		clearTimeout(timeout);
+			// 		timeout = setTimeout(later, wait);
+			// 		if (callNow) func.apply(context, args);
+			// 	};
+			// }
 			const images = document.querySelectorAll("img.slide-in");
 
 			function handleScroll() {
-				// get window.offsetY after the scroll instead of before
+				/* without timeout, window.offsetY is received when the scrolling starts,
+				instead of when it ends */
 				setTimeout(updateImages, 150);
 				function updateImages() {
 					images.forEach(img => {
 						const windowBottomScrollY = window.pageYOffset + window.innerHeight;
-						const imgOffsetBottom = img.offsetTop + img.height;
 						const imgIsBelowViewport = img.offsetTop > windowBottomScrollY;
+
+						const imgOffsetBottom = img.offsetTop + img.height;
 						const imgIsAboveViewport = window.scrollY > imgOffsetBottom;
 
 						// is any part of the img within viewport
@@ -260,7 +261,20 @@
 				}
 			}
 
-			document.addEventListener("scroll", debounce(handleScroll));
+			// run handleScroll() at an interval while scroll is happening
+			const interval = 50;
+			let scheduled = false;
+			function debounceScroll() {
+				if (!scheduled) {
+					scheduled = true;
+					setTimeout(function() {
+						scheduled = false;
+						handleScroll();
+					}, interval);
+				}
+			}
+
+			document.addEventListener("scroll", debounceScroll);
 		</script>
 
 		<style>

@@ -55,3 +55,9 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 - Arbitrary number of availble keywords
 - If the key sequence matches multiple keywords, the recently matched one takes precedence (e.g. gold < goldenrod)
 - Longer keywords have higher precedence (red < darkred)
+
+13 - Slide in on Scroll
+
+- Bugfix: On each scroll, images react to the window's final position, rather than initial
+- Images start sliding as soon as they appear on screen - not when they're halfway in
+- Custom debounce function (for the sake of practice)
