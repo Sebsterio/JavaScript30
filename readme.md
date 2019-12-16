@@ -61,3 +61,9 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 - Bugfix: On each scroll, images react to the window's final position, rather than initial
 - Images start sliding as soon as they appear on screen - not when they're halfway in
 - Custom debounce function (for the sake of practice)
+
+16 - Mouse Move shadow
+
+- interactive text-shadow size and blur with variable parameters
+- responsive font size
+- TODO: input field for variables

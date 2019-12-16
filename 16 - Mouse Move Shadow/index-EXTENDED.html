@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Mouse Shadow</title>
+</head>
+
+<body>
+  <div class="hero">
+    <h1 contenteditable spellcheck="false">🔥WOAH!<span></span></h1>
+  </div>
+
+  <style>
+    html {
+      color: black;
+      font-family: sans-serif;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+      white-space: nowrap;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 20vmin;
+      position: relative;
+      z-index: initial;
+    }
+
+    h1 span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: transparent;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    [contenteditable]:focus {
+      outline: 0px solid transparent;
+      text-decoration: none;
+    }
+  </style>
+
+  <script>
+    const hero = document.querySelector(".hero");
+    const txt = hero.querySelector("h1");
+    const shadow = txt.querySelector("span");
+
+    let txtFontSize;
+    let divSize = { width: 2, height: 2 };
+    let mousePos = { x: 1, y: 1 };
+
+    // get mouse pos relative to target element, without bubbling
+    function getMousePos(e) {
+      let [x, y] = [e.offsetX, e.offsetY];
+      if (this != e.target) {
+        x += e.target.offsetLeft;
+        y += e.target.offsetTop;
+      }
+      return { x, y };
+    }
+
+    // calculate shadow parameters from mousePos and divSize
+    function getShadow(
+      { x, y }, /* = mousePos */
+      { width, height }, /* =  divSize */
+      offsetMultiplier = -0.5,
+      minBlur = 2,  /* px */
+      maxBlur = 14,
+      minMagnification = 1, /* multiplier */
+      maxMagnification = 2.2
+    ) {
+      // offset x & y of pointer relative to the middle of div
+      mouseXOffsetMiddle = Math.floor(x - width / 2);
+      mouseYOffsetMiddle = Math.floor(y - height / 2);
+
+      // vector between pointer and middle of div
+      const mouseOffset = Math.sqrt(mouseXOffsetMiddle * mouseXOffsetMiddle + mouseYOffsetMiddle * mouseYOffsetMiddle);
+
+      // longest possible vector
+      const maxMouseOffset = Math.sqrt(width * width + height * height) / 2;
+
+      // calculate value inversely proportional to mouse vector length
+      // where `min` and `max` are output limits
+      const vectorProportion = mouseOffset / maxMouseOffset
+      function inverseVectorToValue(min, max) {
+        return min + (max - min) * (1 - vectorProportion);
+      }
+
+      return {
+        x: mouseXOffsetMiddle * offsetMultiplier,
+        y: mouseYOffsetMiddle * offsetMultiplier,
+        blur: inverseVectorToValue(minBlur, maxBlur),
+        magnification: inverseVectorToValue(minMagnification, maxMagnification)
+      };
+    }
+
+    function updateShadow({ x, y, blur, magnification }) {
+      shadow.style.fontSize = (txtFontSize * magnification) + "px";
+      shadow.style.textShadow = `${x}px ${y}px ${blur}px rgba(0,0,0,.5)`;
+    }
+
+    function handleMouseMove(e) {
+      divSize = { width: this.clientWidth, height: this.clientHeight };
+      mousePos = getMousePos(e);
+      updateShadow(getShadow(mousePos, divSize));
+    }
+
+    // update global var texFontSize to reflect h1 font-size
+    function updateShadowFontSize() {
+      txtFontSize = window
+        .getComputedStyle(txt, null)
+        .getPropertyValue("font-size");
+      txtFontSize = parseFloat(txtFontSize);
+    }
+
+    function handleResize() {
+      updateShadowFontSize();
+      updateShadow(getShadow(mousePos, divSize))
+    }
+
+    // copy text from h1 to span (shadow element)
+    function updateShadowTextContent() {
+      // hide shadow element to avoid copying it into itself
+      shadow.style.display = "none";
+      shadow.innerText = txt.innerText;
+      shadow.style.display = "initial";
+    }
+
+    // initialize shadow on doc load
+    updateShadowTextContent();
+    updateShadowFontSize();
+    updateShadow(getShadow(mousePos, divSize));
+
+    txt.addEventListener("input", updateShadowTextContent);
+    hero.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener('resize', handleResize)
+  </script>
+</body>
+
+</html>
