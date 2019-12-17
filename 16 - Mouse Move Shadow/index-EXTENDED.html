@@ -11,6 +11,24 @@
     <h1 contenteditable spellcheck="false">🔥WOAH!<span></span></h1>
   </div>
 
+  <div class="menu">
+    <!-- TODO: 'for' necessary? -->
+    <input type="number" value="-0.5" step="0.1" id="offset-multiplier" data-param="offsetMultiplier">
+    <label for="offset-multiplier">offset multiplier</label>
+
+    <input type="number" value="1" step="0.5" id="min-magnification" data-param="minMagnification">
+    <label for="min-magnification">min magnification</label>
+
+    <input type="number" value="2" step="0.5" id="max-magnification" data-param="maxMagnification">
+    <label for="max-magnification">max magnification</label>
+
+    <input type="number" value="2" id="min-blur" data-param="minBlur">
+    <label for="min-blur">min blur</label>
+
+    <input type="number" value="14" id="max-blur" data-param="maxBlur">
+    <label for="max-blur">max blur</label>
+  </div>
+
   <style>
     html {
       color: black;
@@ -52,18 +70,51 @@
       outline: 0px solid transparent;
       text-decoration: none;
     }
+
+    .menu {
+      position: absolute;
+      top: 1vh;
+      left: 1vh;
+      display: grid;
+      grid-template-columns: 50px auto;
+      grid-gap: 4px 4px;
+      padding: 12px;
+      box-shadow: 0 0 4px 0 black;
+      border-radius: 8px;
+      transition: transform 200ms;
+    }
+
+    .menu.hidden {
+      transform: translateX(calc(-100% + 8px));
+    }
   </style>
 
   <script>
     const hero = document.querySelector(".hero");
     const txt = hero.querySelector("h1");
     const shadow = txt.querySelector("span");
+    const menu = document.querySelector('.menu');
+    const inputs = document.querySelectorAll('.menu input');
 
+    // set on doc load, updated on window resize
+    // used on mousemomve and input change
     let txtFontSize;
+
+    // instantiate mousePos in the middle of target div 
+    // in order to display shadow prior to first mousemove event
     let divSize = { width: 2, height: 2 };
     let mousePos = { x: 1, y: 1 };
 
-    // get mouse pos relative to target element, without bubbling
+    // populated with respective input values
+    const shadowParams = {
+      offsetMultiplier: 0,
+      minBlur: 0,
+      maxBlur: 0,
+      minMagnification: 0,
+      maxMagnification: 0
+    }
+
+    // get mouse pos relative to calling element, without bubbling
     function getMousePos(e) {
       let [x, y] = [e.offsetX, e.offsetY];
       if (this != e.target) {
@@ -73,41 +124,39 @@
       return { x, y };
     }
 
-    // calculate shadow parameters from mousePos and divSize
+    // find value between `min` and `max`, inversely proportional to a ratio
+    function inverseRatioToValue(min, max, ratio) {
+      return min + (max - min) * (1 - ratio);
+    }
+
+    // calculate shadow parameters from mousePos relative to parent div
     function getShadow(
-      { x, y }, /* = mousePos */
-      { width, height }, /* =  divSize */
-      offsetMultiplier = -0.5,
-      minBlur = 2,  /* px */
-      maxBlur = 14,
-      minMagnification = 1, /* multiplier */
-      maxMagnification = 2.2
+      // mousePos:
+      { x, y },
+      // divSize:
+      { width, height },
+      // shadowParams:
+      { offsetMultiplier, minBlur, maxBlur, minMagnification, maxMagnification }
     ) {
+
       // offset x & y of pointer relative to the middle of div
       mouseXOffsetMiddle = Math.floor(x - width / 2);
       mouseYOffsetMiddle = Math.floor(y - height / 2);
 
-      // vector between pointer and middle of div
-      const mouseOffset = Math.sqrt(mouseXOffsetMiddle * mouseXOffsetMiddle + mouseYOffsetMiddle * mouseYOffsetMiddle);
-
-      // longest possible vector
-      const maxMouseOffset = Math.sqrt(width * width + height * height) / 2;
-
-      // calculate value inversely proportional to mouse vector length
-      // where `min` and `max` are output limits
-      const vectorProportion = mouseOffset / maxMouseOffset
-      function inverseVectorToValue(min, max) {
-        return min + (max - min) * (1 - vectorProportion);
-      }
+      // ratio between vector (from divMiddle to pointer) and max vector length
+      const mouseVectorMiddle = Math.sqrt(mouseXOffsetMiddle * mouseXOffsetMiddle + mouseYOffsetMiddle * mouseYOffsetMiddle);
+      const maxMouseVector = Math.sqrt(width * width + height * height) / 2;
+      const vectorRatio = mouseVectorMiddle / maxMouseVector
 
       return {
         x: mouseXOffsetMiddle * offsetMultiplier,
         y: mouseYOffsetMiddle * offsetMultiplier,
-        blur: inverseVectorToValue(minBlur, maxBlur),
-        magnification: inverseVectorToValue(minMagnification, maxMagnification)
+        blur: inverseRatioToValue(minBlur, maxBlur, vectorRatio),
+        magnification: inverseRatioToValue(minMagnification, maxMagnification, vectorRatio)
       };
     }
 
+    // set font-size and text-shadow of shadow element
     function updateShadow({ x, y, blur, magnification }) {
       shadow.style.fontSize = (txtFontSize * magnification) + "px";
       shadow.style.textShadow = `${x}px ${y}px ${blur}px rgba(0,0,0,.5)`;
@@ -116,7 +165,7 @@
     function handleMouseMove(e) {
       divSize = { width: this.clientWidth, height: this.clientHeight };
       mousePos = getMousePos(e);
-      updateShadow(getShadow(mousePos, divSize));
+      updateShadow(getShadow(mousePos, divSize, shadowParams));
     }
 
     // update global var texFontSize to reflect h1 font-size
@@ -129,7 +178,7 @@
 
     function handleResize() {
       updateShadowFontSize();
-      updateShadow(getShadow(mousePos, divSize))
+      updateShadow(getShadow(mousePos, divSize, shadowParams))
     }
 
     // copy text from h1 to span (shadow element)
@@ -140,14 +189,47 @@
       shadow.style.display = "initial";
     }
 
-    // initialize shadow on doc load
-    updateShadowTextContent();
-    updateShadowFontSize();
-    updateShadow(getShadow(mousePos, divSize));
+    // update variables in `shadowParams` object
+    function updateParams(input) {
+      const param = input.dataset.param;
+      const value = Number(input.value);
+      shadowParams[param] = value;
+      updateShadow(getShadow(mousePos, divSize, shadowParams));
+    }
 
-    txt.addEventListener("input", updateShadowTextContent);
-    hero.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener('resize', handleResize)
+    (function initApp() {
+
+      // initialize shadowParams object
+      inputs.forEach(input => {
+        updateParams(input);
+        input.addEventListener('change', () => updateParams(input));
+      })
+
+      // initialize shadow element
+      updateShadowTextContent();
+      updateShadowFontSize();
+      updateShadow(getShadow(mousePos, divSize, shadowParams));
+
+
+      txt.addEventListener("input", updateShadowTextContent);
+      hero.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener('resize', handleResize)
+
+    })();
+
+    (function initMenu() {
+      timeout = setTimeout(() => {
+        menu.classList.add('hidden');
+      }, 1000)
+
+      menu.addEventListener('mouseenter', () => {
+        menu.classList.remove('hidden')
+      })
+      menu.addEventListener('mouseleave', () => {
+        menu.classList.add('hidden')
+      })
+    })()
+
   </script>
 </body>
 
