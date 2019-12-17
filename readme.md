@@ -64,6 +64,6 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 16 - Mouse Move shadow
 
-- interactive text-shadow size and blur with variable parameters
-- responsive font size
-- TODO: input field for variables
+- Interactive text-shadow size and blur
+- Variable parameters set in UI
+- Responsive font size
