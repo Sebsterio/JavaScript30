@@ -67,3 +67,7 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 - Interactive text-shadow size and blur
 - Variable parameters set in UI
 - Responsive font size
+
+18 - Adding Up Times with reduce
+
+- Functional programming approach & reusable functions
