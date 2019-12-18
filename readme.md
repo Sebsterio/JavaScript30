@@ -71,7 +71,3 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 #### 18 - Adding Up Times with reduce [(view)]()
 
 - Functional programming approach & reusable functions
-
-## TODO
-
-- add links to pages in readme
