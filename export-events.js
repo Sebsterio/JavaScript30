@@ -1,14 +1,13 @@
-console.log('testing ....');
+console.log("testing ....");
 
 const doc = document.documentElement;
 
 function callback(e) {
 	console.log("IF. e:" + e);
 	const targetWindow = window.opener;
-	const message = 'hellow from iframe';
+	const message = "hellow from iframe";
 	targetOrigin = "*";
 	targetWindow.postMessage(message, targetOrigin);
-	}
 }
 
 document.addEventListener("touchstart", callback);
