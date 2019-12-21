@@ -1,20 +1,16 @@
 const doc = document.documentElement;
 
 function callback(e) {
-	console.log(e);
-	doc.setAttribute("data-export-event", "touchstart");
-	document.dispatchEvent(
-		new CustomEvent("test", {
-			detail: { prop: "test" }
-		})
-	);
+	console.log("IF. e:" + e);
+	if (window.parent) {
+		console.log("IF. window parent =");
+		console.dir(window.parent);
+		window.parent.scrollTest();
+	}
 }
 
 document.addEventListener("touchstart", callback);
-
-document.addEventListener("test", () =>
-	console.log("test event registered within iframe")
-);
+document.addEventListener("click", callback);
 
 // document.addEventListener("touchend", callback);
 // document.addEventListener("touchcancel", callback);
