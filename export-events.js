@@ -1,19 +1,24 @@
-console.log("testing window.parent.postMessage");
+const SWIPE_SENSITIVITY = 15;
 
-function callback(e) {
-	const message = "hello from iframe";
+let touchstartY = 0;
+let touchendY = 0;
+
+function handleTouchStart(e) {
+	touchstartY = e.touches[0].pageY;
+}
+function handleTouchEnd(e) {
+	touchendY = e.changedTouches[0].pageY;
+	const deltaY = touchendY - touchstartY;
+	const message =
+		deltaY > SWIPE_SENSITIVITY
+			? "swipe-down"
+			: deltaY < SWIPE_SENSITIVITY * -1
+			? "swipe-down"
+			: "touch";
 	targetOrigin = "*";
 	window.parent.postMessage(message, targetOrigin);
 }
 
-document.addEventListener("touchstart", callback);
-document.addEventListener("click", callback);
-
-// document.addEventListener("touchend", callback);
-// document.addEventListener("touchcancel", callback);
-// document.addEventListener("touchmove", callback);
-
-// document.addEventListener("touchstart", handleStart);
-// document.addEventListener("touchend", handleEnd);
-// document.addEventListener("touchcancel", handleCancel);
-// document.addEventListener("touchmove", handleMove);
+document.addEventListener("touchstart", handleTouchStart);
+document.addEventListener("touchend", handleTouchEnd);
+// document.addEventListener("touchmove", handleTouchMove);
