@@ -10,14 +10,12 @@
 	function handleTouchEnd(e) {
 		const touchendY = e.changedTouches[0].pageY;
 		const deltaY = touchendY - touchstartY;
-		console.log(deltaY);
 		const message =
 			deltaY > SWIPE_SENSITIVITY
 				? "swipe-down"
 				: deltaY < -SWIPE_SENSITIVITY
 				? "swipe-up"
 				: "touch";
-		console.log(message);
 		targetOrigin = "*";
 		window.parent.postMessage(message, targetOrigin);
 	}
