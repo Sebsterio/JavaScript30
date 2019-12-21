@@ -1,11 +1,13 @@
+console.log('testing ....');
+
 const doc = document.documentElement;
 
 function callback(e) {
 	console.log("IF. e:" + e);
-	if (window.parent) {
-		console.log("IF. window parent =");
-		console.dir(window.parent);
-		window.parent.scrollTest();
+	const targetWindow = window.opener;
+	const message = 'hellow from iframe';
+	targetOrigin = "*";
+	targetWindow.postMessage(message, targetOrigin);
 	}
 }
 
