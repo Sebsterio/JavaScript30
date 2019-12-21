@@ -1,11 +1,7 @@
 console.log("testing window.parent.postMessage");
 
-const doc = document.documentElement;
-
 function callback(e) {
-	console.log("IF. e:");
-	console.log(e);
-	const message = "hellow from iframe";
+	const message = "hello from iframe";
 	targetOrigin = "*";
 	window.parent.postMessage(message, targetOrigin);
 }
