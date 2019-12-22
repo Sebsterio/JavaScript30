@@ -3,7 +3,6 @@
 	const SWIPE_SENSITIVITY = 15;
 
 	let touchstartY = 0;
-
 	function handleTouchStart(e) {
 		touchstartY = e.touches[0].pageY;
 	}
@@ -16,10 +15,17 @@
 				: deltaY < -SWIPE_SENSITIVITY
 				? "swipe-up"
 				: "touch";
-		targetOrigin = "*";
-		window.parent.postMessage(message, targetOrigin);
+		window.parent.postMessage(message, "*");
+	}
+
+	function handleWheel(e) {
+		const message =
+			e.deltaY > 0 ? "scroll-down" : e.deltaY < 0 ? "scroll-up" : "";
+		if (!message) return;
+		window.parent.postMessage(message, "*");
 	}
 
 	document.addEventListener("touchstart", handleTouchStart);
 	document.addEventListener("touchend", handleTouchEnd);
+	document.addEventListener("wheel", handleWheel);
 })();
