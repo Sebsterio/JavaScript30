@@ -55,7 +55,6 @@
 					? "scroll-up-edge"
 					: "scroll-up" // not reliable!
 				: "";
-		//console.log(message);
 		if (!message) return;
 		window.parent.postMessage(message, "*");
 	}
@@ -69,7 +68,6 @@
 	let ready = true;
 	function debounce(e, callback) {
 		if (ready) {
-			console.log(e);
 			ready = false;
 			clearTimeout(timeout);
 			timeout = setTimeout(() => {
