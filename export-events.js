@@ -3,7 +3,8 @@
 	const SWIPE_SENSITIVITY = 15;
 
 	// for debouncing scroll events - set high due to trackpad scroll inertia (the only solution I found)
-	const SCROLL_MIN_INTERVAL = 2000;
+	const SCROLL_MIN_INTERVAL = 200;
+	const SCROLL_EDGE_INTERVAL = 2000;
 
 	function getDocHeight() {
 		var D = document;
@@ -71,9 +72,16 @@
 		if (ready) {
 			ready = false;
 			clearTimeout(timeout);
-			timeout = setTimeout(() => {
-				ready = true;
-			}, SCROLL_MIN_INTERVAL);
+			// edge scroll -> long interval
+			if (isDocAtScrollEnd() || isDocAtScrollStart())
+				timeout = setTimeout(() => {
+					ready = true;
+				}, SCROLL_EDGE_INTERVAL);
+			// regular scroll -> short interval
+			else
+				timeout = setTimeout(() => {
+					ready = true;
+				}, SCROLL_MIN_INTERVAL);
 			callback(e);
 		}
 	}
