@@ -1,4 +1,23 @@
 (function() {
+	function getDocHeight() {
+		var D = document;
+		return Math.max(
+			D.body.scrollHeight,
+			D.documentElement.scrollHeight,
+			D.body.offsetHeight,
+			D.documentElement.offsetHeight,
+			D.body.clientHeight,
+			D.documentElement.clientHeight
+		);
+	}
+
+	function isDocAtScrollStart() {
+		return window.scrollY <= 0;
+	}
+	function isDocAtScrollEnd() {
+		return window.scrollY + window.innerHeight >= getDocHeight();
+	}
+
 	// distance between touchStart and touchEnd to be considered a swipe
 	const SWIPE_SENSITIVITY = 15;
 
@@ -11,16 +30,30 @@
 		const deltaY = touchendY - touchstartY;
 		const message =
 			deltaY > SWIPE_SENSITIVITY
-				? "swipe-down"
+				? isDocAtScrollStart()
+					? "swipe-down-edge"
+					: "swipe-down"
 				: deltaY < -SWIPE_SENSITIVITY
-				? "swipe-up"
+				? isDocAtScrollEnd()
+					? "swipe-up-edge"
+					: "swipe-up"
 				: "touch";
+		console.log(message);
 		window.parent.postMessage(message, "*");
 	}
 
 	function handleWheel(e) {
 		const message =
-			e.deltaY > 0 ? "scroll-down" : e.deltaY < 0 ? "scroll-up" : "";
+			e.deltaY > 0
+				? isDocAtScrollEnd()
+					? "scroll-down-edge"
+					: "scroll-down" // not reliable!
+				: e.deltaY < 0
+				? isDocAtScrollStart()
+					? "scroll-up-edge"
+					: "scroll-up" // not reliable!
+				: "";
+		console.log(message);
 		if (!message) return;
 		window.parent.postMessage(message, "*");
 	}
