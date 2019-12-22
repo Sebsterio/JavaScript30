@@ -1,4 +1,10 @@
 (function() {
+	// distance between touchStart and touchEnd to be considered a swipe
+	const SWIPE_SENSITIVITY = 15;
+
+	// for debouncing scroll events
+	const SCROLL_MIN_INTERVAL = 200;
+
 	function getDocHeight() {
 		var D = document;
 		return Math.max(
@@ -18,9 +24,6 @@
 		return window.scrollY + window.innerHeight >= getDocHeight();
 	}
 
-	// distance between touchStart and touchEnd to be considered a swipe
-	const SWIPE_SENSITIVITY = 15;
-
 	let touchstartY = 0;
 	function handleTouchStart(e) {
 		touchstartY = e.touches[0].pageY;
@@ -38,7 +41,6 @@
 					? "swipe-up-edge"
 					: "swipe-up"
 				: "touch";
-		console.log(message);
 		window.parent.postMessage(message, "*");
 	}
 
@@ -53,12 +55,28 @@
 					? "scroll-up-edge"
 					: "scroll-up" // not reliable!
 				: "";
-		console.log(message);
+		//console.log(message);
 		if (!message) return;
 		window.parent.postMessage(message, "*");
 	}
 
+	// solution: parentWindow: on scroll out, kill script
+
+	let timeout;
+	let ready = true;
+	function debounce(e, callback) {
+		if (ready) {
+			console.log(e);
+			ready = false;
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				ready = true;
+			}, SCROLL_MIN_INTERVAL);
+			callback(e);
+		}
+	}
+
 	document.addEventListener("touchstart", handleTouchStart);
 	document.addEventListener("touchend", handleTouchEnd);
-	document.addEventListener("wheel", handleWheel);
+	document.addEventListener("wheel", e => debounce(e, handleWheel));
 })();
