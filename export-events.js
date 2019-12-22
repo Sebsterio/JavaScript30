@@ -60,7 +60,10 @@
 		window.parent.postMessage(message, "*");
 	}
 
-	// solution: parentWindow: on scroll out, kill script
+	// problem: trackpad scroll event inertia keeps sending scroll event messages
+	// attempted solution: window.parent: on scroll out, kill iframe script --> no success:
+	// add attribute 'sandbox' --> no effect;
+	// iframe src='' --> no effect
 
 	let timeout;
 	let ready = true;
