@@ -2,8 +2,8 @@
 	// distance between touchStart and touchEnd to be considered a swipe
 	const SWIPE_SENSITIVITY = 15;
 
-	// for debouncing scroll events
-	const SCROLL_MIN_INTERVAL = 200;
+	// for debouncing scroll events - set high due to trackpad scroll inertia (the only solution I found)
+	const SCROLL_MIN_INTERVAL = 2000;
 
 	function getDocHeight() {
 		var D = document;
@@ -57,6 +57,7 @@
 				: "";
 		if (!message) return;
 		window.parent.postMessage(message, "*");
+		console.log(message);
 	}
 
 	// problem: trackpad scroll event inertia keeps sending scroll event messages
