@@ -72,21 +72,24 @@
 		if (ready) {
 			ready = false;
 			clearTimeout(timeout);
+
 			// edge scroll -> long interval
 			if (isDocAtScrollEnd() || isDocAtScrollStart())
 				timeout = setTimeout(() => {
 					ready = true;
 				}, SCROLL_EDGE_INTERVAL);
-			// regular scroll -> short interval
+			// mid-doc scroll -> short interval
 			else
 				timeout = setTimeout(() => {
 					ready = true;
 				}, SCROLL_MIN_INTERVAL);
 			callback(e);
+		} else {
+			console.log("not ready");
 		}
 	}
 
-	document.addEventListener("touchstart", handleTouchStart);
-	document.addEventListener("touchend", handleTouchEnd);
-	document.addEventListener("wheel", e => debounce(e, handleWheel));
+	document.body.addEventListener("touchstart", handleTouchStart);
+	document.body.addEventListener("touchend", handleTouchEnd);
+	document.body.addEventListener("wheel", e => debounce(e, handleWheel));
 })();
