@@ -7,7 +7,7 @@
 	const SCROLL_EDGE_INTERVAL = 2000;
 
 	function getDocHeight() {
-		var D = document;
+		const D = document;
 		return Math.max(
 			D.body.scrollHeight,
 			D.documentElement.scrollHeight,
@@ -28,6 +28,7 @@
 	let touchstartY = 0;
 	function handleTouchStart(e) {
 		touchstartY = e.touches[0].pageY;
+		console.log("touchstart");
 	}
 	function handleTouchEnd(e) {
 		const touchendY = e.changedTouches[0].pageY;
