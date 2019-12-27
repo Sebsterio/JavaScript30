@@ -1,9 +1,16 @@
-// problem: trackpad scroll event inertia keeps sending scroll event messages
-// attempted solution: window.parent: on scroll out, kill iframe script --> no success:
+// This function allows the page that includes it to send scroll events to it's host while embedded as an iframe.
+// The messages allow the host page to scroll to the next/previous iframe, which wouldn't be possible otherwise as it wouldn't register scroll events
+// scroll-to-next-page logic is handled here as trackpad scroll inertia requires the scroll function to be debounced, which would make sending low level messages ('scrolled-up-at-top-edge' rather than 'prev') messy.
+
+// Problem: trackpad scroll event inertia keeps sending scroll event messages
+// attempted solutions: window.parent: on scroll out, kill iframe script
 // add attribute 'sandbox' --> no effect;
 // iframe src='' --> no effect
+// final solution: debounce scroll-to-next-page messages --> works but will freeze the scroll functionality when user scrolls out and immediatley back into the same frame within 2 seconds.
 
 (function() {
+	// AUX
+
 	function getDocHeight() {
 		const D = document;
 		return Math.max(
@@ -66,15 +73,11 @@
 		}, SCROLL_MESSAGE_INTERVAL);
 
 		window.parent.postMessage(message, "*");
-		console.log(message);
 	}
 
-	// send message only when doc is scrolled to the top/bottom edge and user scrolling towards the edge
+	// send message only when doc is scrolled to the top/bottom edge and user is scrolling towards the edge
 	function handleWheel(e) {
-		if (!ready) {
-			console.log("not ready");
-			return;
-		}
+		if (!ready) return;
 		if (isDocAtScrollEnd() && e.deltaY > 0) {
 			debouncedMessage("next");
 		} else if (isDocAtScrollStart() && e.deltaY < 0) {
