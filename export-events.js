@@ -90,7 +90,10 @@
 		}
 	}
 
-	document.body.addEventListener("touchstart", handleTouchStart);
-	document.body.addEventListener("touchend", handleTouchEnd);
-	document.body.addEventListener("wheel", e => debounce(e, handleWheel));
+	window.addEventListener("touchstart", handleTouchStart);
+	window.addEventListener("touchend", handleTouchEnd);
+	window.addEventListener("wheel", e => debounce(e, handleWheel));
+	document.addEventListener("touchstart", handleTouchStart);
+	document.addEventListener("touchend", handleTouchEnd);
+	document.addEventListener("wheel", e => debounce(e, handleWheel));
 })();
