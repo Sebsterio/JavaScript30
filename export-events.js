@@ -90,6 +90,3 @@
 	document.addEventListener("touchend", handleTouchEnd);
 	document.addEventListener("wheel", handleWheel);
 })();
-
-// TEMP
-console.log("frame loaded");
