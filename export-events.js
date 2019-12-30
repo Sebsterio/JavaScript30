@@ -28,11 +28,19 @@
 	}
 
 	function isDocAtScrollEnd() {
-		console.log("window.scrollY " + window.scrollY);
-		console.log("window.innerHeight " + window.innerHeight);
-		console.log("= " + (window.scrollY + window.innerHeight));
-		console.log("docHeight " + getDocHeight());
-		console.log("-----------------------");
+		alert(
+			"window.scrollY " +
+				window.scrollY +
+				"\n" +
+				"window.innerHeight " +
+				window.innerHeight +
+				"\n" +
+				"= " +
+				(window.scrollY + window.innerHeight) +
+				"\n" +
+				"docHeight " +
+				getDocHeight()
+		);
 		return window.scrollY + window.innerHeight >= getDocHeight();
 	}
 
