@@ -9,7 +9,7 @@
 // final solution: debounce scroll-to-next-page messages --> works but will freeze the scroll functionality when user scrolls out and immediatley back into the same frame within 2 seconds.
 
 (function() {
-	// AUX
+	// -------------- DOC SCROLL POSITION ----------------
 
 	function getDocHeight() {
 		const D = document;
@@ -31,7 +31,7 @@
 		return window.scrollY + window.innerHeight >= getDocHeight();
 	}
 
-	// SWIPE
+	// ------------------- SWIPE -------------------
 
 	// distance between touchStart and touchEnd to be considered a swipe
 	const SWIPE_SENSITIVITY = 15;
@@ -44,20 +44,25 @@
 	function handleTouchEnd(e) {
 		const touchendY = e.changedTouches[0].pageY;
 		const deltaY = touchendY - touchstartY;
-		const message =
-			deltaY > SWIPE_SENSITIVITY
-				? isDocAtScrollStart()
-					? "prev"
-					: ""
-				: deltaY < -SWIPE_SENSITIVITY
-				? isDocAtScrollEnd()
-					? "next"
-					: ""
-				: "touch";
-		if (message) window.parent.postMessage(message, "*");
+		if (isDocAtScrollEnd() && deltaY < -SWIPE_SENSITIVITY) {
+			window.parent.postMessage("next", "*");
+		} else if (isDocAtScrollStart() && deltaY > SWIPE_SENSITIVITY) {
+			window.parent.postMessage("prev", "*");
+		}
+		// const message =
+		// 	deltaY > SWIPE_SENSITIVITY
+		// 		? isDocAtScrollStart()
+		// 			? "prev"
+		// 			: ""
+		// 		: deltaY < -SWIPE_SENSITIVITY
+		// 		? isDocAtScrollEnd()
+		// 			? "next"
+		// 			: ""
+		// 		: "touch";
+		// if (message) window.parent.postMessage(message, "*");
 	}
 
-	// SCROLL
+	// ------------------- SCROLL -------------------
 
 	// for debouncing scroll event messages - set high due to trackpad scroll inertia (the only solution I found)
 	const SCROLL_MESSAGE_INTERVAL = 2000;
@@ -84,6 +89,8 @@
 			debouncedMessage("prev");
 		}
 	}
+
+	// ------------------- LISTENERS -------------------
 
 	// use `document` and not `window` in case some projects' <html> height is not 100vh
 	document.addEventListener("touchstart", handleTouchStart);
