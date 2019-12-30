@@ -74,5 +74,13 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 ## TODO
 
-- Canvas & Mousemove shadow: mobile support (touch)
-- all: Mobile display support
+- All - Mobile display support (360px screen width)
+
+- Canvas
+  -touch support (swipe time is limited in export-events so no worries about conflict)
+
+- Mousemove shadow - touch support - tip div start visible, hide on window mousemove
+
+- Type Ahead - mobile: on focus, move input to top of window
+
+- Sort without articles - make it interactive - add to portfolio
