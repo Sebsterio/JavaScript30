@@ -28,20 +28,8 @@
 	}
 
 	function isDocAtScrollEnd() {
-		alert(
-			"window.scrollY " +
-				window.scrollY +
-				"\n" +
-				"window.innerHeight " +
-				window.innerHeight +
-				"\n" +
-				"= " +
-				(window.scrollY + window.innerHeight) +
-				"\n" +
-				"docHeight " +
-				getDocHeight()
-		);
-		return window.scrollY + window.innerHeight >= getDocHeight();
+		// 1px padding for occasional iframe scaling issues
+		return window.scrollY + window.innerHeight >= getDocHeight() - 1;
 	}
 
 	// ------------------- SWIPE -------------------
