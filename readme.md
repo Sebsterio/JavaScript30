@@ -29,6 +29,7 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 - Inputs update values only when mouse button is pressed
 - `rotate` variable instead of `padding`
 - Responsive; mobile first
+- Touch screen support
 
 #### 05 - Flex Panel Gallery [(view)](https://sebsterio.github.io/JavaScript30/05%20-%20Flex%20Panel%20Gallery/index.html)
 
