@@ -17,7 +17,7 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 #### 01 - JS Drum Kit [(view)](https://sebsterio.github.io/JavaScript30/01%20-%20JavaScript%20Drum%20Kit/index.html)
 
 - Drums respond to click events
-- Responsive: Fits narrow screens (mobile first)
+- Responsive; mobile first
 
 #### 02 - JS and CSS Clock [(view)](https://sebsterio.github.io/JavaScript30/02%20-%20JS%20and%20CSS%20Clock/index.html)
 
@@ -27,6 +27,8 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 - Initial values of input elements sync up with CSS vars
 - Inputs update values only when mouse button is pressed
+- `rotate` variable instead of `padding`
+- Responsive; mobile first
 
 #### 05 - Flex Panel Gallery [(view)](https://sebsterio.github.io/JavaScript30/05%20-%20Flex%20Panel%20Gallery/index.html)
 
