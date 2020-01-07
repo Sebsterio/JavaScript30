@@ -13,13 +13,13 @@
 
   <div class="menu">
     <!-- TODO: 'for' necessary? -->
-    <input type="number" value="-0.5" step="0.1" id="offset-multiplier" data-param="offsetMultiplier">
+    <input type="number" value="-0.7" step="0.1" id="offset-multiplier" data-param="offsetMultiplier">
     <label for="offset-multiplier">offset multiplier</label>
 
     <input type="number" value="1" step="0.5" id="min-magnification" data-param="minMagnification">
     <label for="min-magnification">min magnification</label>
 
-    <input type="number" value="2" step="0.5" id="max-magnification" data-param="maxMagnification">
+    <input type="number" value="3" step="0.5" id="max-magnification" data-param="maxMagnification">
     <label for="max-magnification">max magnification</label>
 
     <input type="number" value="2" id="min-blur" data-param="minBlur">
@@ -76,12 +76,17 @@
       top: 1vh;
       left: 1vh;
       display: grid;
-      grid-template-columns: 50px auto;
+      grid-template-columns: 70px auto;
       grid-gap: 4px 4px;
       padding: 12px;
       box-shadow: 0 0 4px 0 black;
       border-radius: 8px;
       transition: transform 200ms;
+    }
+
+    .menu>* {
+      padding: 0 6px;
+      font-size: 20px;
     }
 
     .menu.hidden {
@@ -211,20 +216,16 @@
       hero.addEventListener("touchmove", handleMouseMove);
       window.addEventListener('resize', handleResize)
 
-    })();
-
-    (function initMenu() {
-      timeout = setTimeout(() => {
+      hero.addEventListener('click', () => {
         menu.classList.add('hidden');
-      }, 000)
-
+      })
       menu.addEventListener('mouseenter', () => {
         menu.classList.remove('hidden')
       })
       menu.addEventListener('mouseleave', () => {
         menu.classList.add('hidden')
       })
-    })()
+    })();
 
   </script>
   <script src='https://sebsterio.github.io/export-events/main.js'></script>
