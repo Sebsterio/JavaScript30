@@ -165,6 +165,14 @@
       inputEl.addEventListener("touchmove", updatePropValue);
       inputEl.addEventListener("change", updatePropValue);
     });
+
+    const D = document;
+    console.log(D.body.scrollHeight,
+      D.documentElement.scrollHeight,
+      D.body.offsetHeight,
+      D.documentElement.offsetHeight,
+      D.body.clientHeight,
+      D.documentElement.clientHeight)
   </script>
   <script src='https://sebsterio.github.io/export-events/main.js'></script>
 </body>
