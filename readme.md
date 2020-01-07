@@ -72,6 +72,7 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 - Interactive text-shadow size and blur
 - Variable parameters set in UI
+- Touch screen support
 - Responsive font size
 
 #### 18 - Adding Up Times with reduce [(view)]()
@@ -80,21 +81,9 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 ## TODO
 
-#### All
-
-- Mobile display support (360px screen width)
-
 #### Clock
 
-- remove issue with the animation at last position before 0 deg
-
-#### Mousemove shadow
-
-- touch support - tip div start visible, hide on window mousemove
-
-#### Type Ahead
-
-- mobile: on focus, move input to top of window
+- Prevent clock hands from moving from 360deg back to 0deg at the end of a cycle
 
 #### Sort without articles
 
