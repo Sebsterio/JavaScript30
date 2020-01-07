@@ -135,6 +135,7 @@
     function updatePropValue(e, inputEl) {
       if (
         (e && e.type == "mousemove" && canPropUpdate) ||
+        (e && e.type == "touchmove") ||
         (e && e.type == "change") || // picker tool & keyboard
         !e // setting initial values
       ) {
@@ -153,6 +154,7 @@
       inputEl.addEventListener("mousedown", toggleCanPropUpdate);
       inputEl.addEventListener("mouseup", toggleCanPropUpdate);
       inputEl.addEventListener("mousemove", updatePropValue);
+      inputEl.addEventListener("touchmove", updatePropValue);
       inputEl.addEventListener("change", updatePropValue);
     });
   </script>
