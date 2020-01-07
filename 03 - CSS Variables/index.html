@@ -26,7 +26,9 @@
     </div>
   </div>
 
-  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500" />
+  <div class="wrapper">
+    <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500" />
+  </div>
 
   <style>
     :root {
@@ -39,13 +41,13 @@
       background: var(--base);
       filter: blur(var(--blur));
       padding: var(--spacing);
-      transform: perspective(800px) rotateY(var(--angle));
+      transform: translateX(-50%) perspective(800px) rotateY(var(--angle)) !important;
     }
 
     .hl {
       display: inline-block;
       color: var(--base);
-      transform: rotate(calc(-1 * var(--angle) /4))
+      transform: rotate(calc(-1 * var(--angle) /8))
     }
 
     /*
@@ -77,8 +79,13 @@
       ;
     }
 
-    img {
+    .wrapper {
       position: relative;
+    }
+
+    img {
+      position: absolute;
+      transform: translateX(-50%);
       width: 90%;
       padding: 10px;
     }
