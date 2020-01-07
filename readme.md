@@ -17,6 +17,7 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 #### 01 - JS Drum Kit [(view)](https://sebsterio.github.io/JavaScript30/01%20-%20JavaScript%20Drum%20Kit/index.html)
 
 - Drums respond to click events
+- Responsive: Fits narrow screens (mobile first)
 
 #### 02 - JS and CSS Clock [(view)](https://sebsterio.github.io/JavaScript30/02%20-%20JS%20and%20CSS%20Clock/index.html)
 
@@ -29,7 +30,7 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 #### 05 - Flex Panel Gallery [(view)](https://sebsterio.github.io/JavaScript30/05%20-%20Flex%20Panel%20Gallery/index.html)
 
-- Panels expand on 'mouseover' instead of 'click'.
+- Panels expand on 'mouseover' instead of 'click'
 - Opening a panel closes the previous one.
 - more dynamic CSS transitions.
 
@@ -74,13 +75,30 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 ## TODO
 
-- All - Mobile display support (360px screen width)
+#### All
 
-- Canvas
-  -touch support (swipe time is limited in export-events so no worries about conflict)
+- Mobile display support (360px screen width)
 
-- Mousemove shadow - touch support - tip div start visible, hide on window mousemove
+#### Clock
 
-- Type Ahead - mobile: on focus, move input to top of window
+- remove issue with the animation at last position before 0 deg
 
-- Sort without articles - make it interactive - add to portfolio
+#### Variables
+
+- Improve
+
+#### Canvas
+
+-touch support (swipe time is limited in export-events so no worries about conflict)
+
+#### Mousemove shadow
+
+- touch support - tip div start visible, hide on window mousemove
+
+#### Type Ahead
+
+- mobile: on focus, move input to top of window
+
+#### Sort without articles
+
+- make it interactive -> add to portfolio
