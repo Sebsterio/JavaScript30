@@ -7,7 +7,9 @@
   <style>
     html,
     body {
+      padding: 0;
       margin: 0;
+      overflow: hidden;
     }
 
     p#info {
@@ -25,27 +27,47 @@
 
 <body>
   <canvas id="draw" width="800" height="800"></canvas>
-  <p id="info">Hold left mouse button to draw.
+  <p id="info">Draw with left mouse button or touch.
     <br><br>
     Press Backspace to undo.</p>
   <script>
     const info = document.getElementById("info");
     const canvas = document.getElementById("draw");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
     const ctx = canvas.getContext("2d");
 
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.lineWidth = 10;
-    let hue = 0;
+    // Save ctx props outside of ctx as they get reset on resize
+    let lineCap = "round"
+    let lineJoin = "round";
+    let lineWidth = 10;
 
+    // Vars related to "undo"
     let isDrawing = false;
     let lastX, lastY, curX, curY;
-
     const strokes = [];
     let lines = [];
 
+    // Changes over time during a stroke
+    let hue = 0;
+
+    // --------------- Draw -------------
+
+    // Get event coords relative to doc
+    function getCoords(e) {
+      return [
+        e.pageX || (e.touches ? Math.floor(e.changedTouches[0].pageX) : 0),
+        e.pageY || (e.touches ? Math.floor(e.changedTouches[0].pageY) : 0)
+      ]
+    }
+
+    function startStroke(e) {
+      if (info) info.remove();
+      // Initialize new stroke
+      strokes.push([]);
+      [lastX, lastY] = getCoords(e)
+      isDrawing = true;
+    }
+
+    // Draw vector on canvas
     function renderLine(x1, y1, x2, y2, h) {
       ctx.strokeStyle = `hsl(${h},100%, 50%)`;
       ctx.beginPath();
@@ -56,12 +78,12 @@
 
     function drawAndSave(e) {
       if (!isDrawing) return;
-      const line = [lastX, lastY, e.offsetX, e.offsetY, hue];
+      const [x, y] = getCoords(e)
+      const line = [lastX, lastY, x, y, hue];
       renderLine(...line);
       lines.push(line);
-      [lastX, lastY] = [e.offsetX, e.offsetY];
+      [lastX, lastY] = [x, y]
 
-      // update oscilating vars
       hue++;
       if (hue > 360) hue = hue - 360;
     }
@@ -69,41 +91,83 @@
     function endStroke(e) {
       if (!isDrawing) return;
       isDrawing = false;
-      // push points to current stroke
+      // Push points to current stroke
       if (lines.length > 0) {
         strokes[strokes.length - 1].push(...lines, hue);
         lines = [];
       } else strokes.pop();
     }
 
-    function startStroke(e) {
-      if (info) info.remove();
-      // initialize new stroke
-      strokes.push([]);
-      [lastX, lastY] = [e.offsetX, e.offsetY];
-      isDrawing = true;
+    // --------------- Undo & resize -------------
+
+    // Draw lines stored in array `strokes`
+    function redraw() {
+      strokes.forEach(stroke =>
+        stroke.forEach(line => {
+          if (line.length > 1) {
+            renderLine(line[0], line[1], line[2], line[3], line[4]);
+          } else hue = line; // restore `hue` to its state at that time
+        })
+      );
     }
 
+    function undo() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      strokes.pop();
+      redraw()
+    }
+
+    // Check if key is Backspace
     function handleKeyDown(e) {
-      if ((e.key && e.key == "Backspace") || (e.keyCode && e.keyCode == 8)) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        strokes.pop();
-        // redraw
-        strokes.forEach(stroke =>
-          stroke.forEach(line => {
-            if (line.length > 1) {
-              renderLine(line[0], line[1], line[2], line[3], line[4]);
-            } else hue = line; // restore `hue` to its state at that time
-          })
-        );
+      if ((e.key && e.key == "Backspace") ||
+        (e.keyCode && e.keyCode == 8))
+        undo()
+    }
+
+    // Discern between touch stroke and tap
+    function handleTouch(e) {
+      e.preventDefault(); // Prevent mouse event from firing
+      if (e.type === 'touchstart') {
+        handleTouch.tap = true;
+        startStroke(e)
+      }
+      else if (e.type === 'touchmove') {
+        handleTouch.tap = false;
+        drawAndSave(e)
+      }
+      else if (e.type === 'touchend' || e.type === 'touchcancel') {
+        endStroke(e)
+        if (handleTouch.tap) undo()
       }
     }
+
+    // Declare / restore props as they got reset by resize
+    function setUpCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      ctx.lineCap = lineCap
+      ctx.lineJoin = lineJoin
+      ctx.lineWidth = lineWidth
+    }
+
+    setUpCanvas()
 
     canvas.addEventListener("mousedown", startStroke);
     canvas.addEventListener("mousemove", drawAndSave);
     canvas.addEventListener("mouseup", endStroke);
     canvas.addEventListener("mouseout", endStroke);
+
+    canvas.addEventListener("touchstart", handleTouch);
+    canvas.addEventListener("touchmove", handleTouch);
+    canvas.addEventListener("touchend", handleTouch);
+    canvas.addEventListener("touchcancel", handleTouch);
+
     document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", () => {
+      // (Canvas props get reset)
+      setUpCanvas();
+      redraw()
+    });
   </script>
   <script src='https://sebsterio.github.io/export-events/main.js'></script>
 </body>

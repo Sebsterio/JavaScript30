@@ -48,6 +48,8 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 #### 08 - Canvas [(view)](https://sebsterio.github.io/JavaScript30/08%20-%20Fun%20with%20HTML5%20Canvas/index.html)
 
 - Actions can be undone
+- Touch screen support
+- Canvas preseves content on resize
 
 #### 10 - Checkboxes [(view)](https://sebsterio.github.io/JavaScript30/10%20-%20Hold%20Shift%20and%20Check%20Checkboxes/index.html)
 
@@ -85,14 +87,6 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 #### Clock
 
 - remove issue with the animation at last position before 0 deg
-
-#### Variables
-
-- Improve
-
-#### Canvas
-
--touch support (swipe time is limited in export-events so no worries about conflict)
 
 #### Mousemove shadow
 
