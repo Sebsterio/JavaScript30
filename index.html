@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>JavaScript30 Table of Contents</title>
+	<style>
+		body {
+			background-color: #d9f1ff;
+		}
+
+		ul {
+			padding: 8px 16px;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		a {
+			font-family: Helvetica, sans-serif;
+			font-size: 18px;
+			line-height: 26px;
+			color: black;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: #006c80;
+			text-decoration: underline;
+		}
+	</style>
+</head>
+
+<body>
+	<ul class="list"></ul>
+
+	<script>
+		let projects = [
+			["/01%20-%20JavaScript%20Drum%20Kit/index.html", true],
+			["/02%20-%20JS%20and%20CSS%20Clock/index.html", true],
+			["/03%20-%20CSS%20Variables/index.html", true],
+			["/04%20-%20Array%20Cardio%20Day%201/index.html", true],
+			["/05%20-%20Flex%20Panel%20Gallery/index.html", true],
+			["/06%20-%20Type%20Ahead/index.html", true],
+			["/07%20-%20Array%20Cardio%20Day%202/index.html", true],
+			["/08%20-%20Fun%20with%20HTML5%20Canvas/index.html", true],
+			["/10%20-%20Hold%20Shift%20and%20Check%20Checkboxes/index.html", true],
+			["/11%20-%20Custom%20Video%20Player/index.html", false],
+			["/12%20-%20Key%20Sequence%20Detection/index.html", true],
+			["/13%20-%20Slide%20in%20on%20Scroll/index.html", true],
+			["/15%20-%20LocalStorage/index.html", true],
+			["/16%20-%20Mouse%20Move%20Shadow/index.html", true],
+			["/17%20-%20Sort%20Without%20Articles/index.html", true],
+			["/18%20-%20Adding%20Up%20Times%20with%20Reduce/index.html", true],
+			["/19%20-%20Webcam%20Fun/index.html", false],
+			["/20%20-%20Speech%20Detection/index.html", false],
+			["/21%20-%20Geolocation/index.html", false],
+			["/22%20-%20Follow%20Along%20Link%20Highlighter/index.html", true],
+			["/23%20-%20Speech%20Synthesis/index.html", false],
+			["/24%20-%20Sticky%20Nav/index.html", true],
+			["/26%20-%20Stripe%20Follow%20Along%20Nav/index.html", true],
+			["/27%20-%20Click%20and%20Drag/index.html", true],
+			["/28%20-%20Video%20Speed%20Controller/index.html", false],
+			["/29%20-%20Countdown%20Timer/index.html", true],
+			["/30%20-%20Whack%20A%20Mole/index.html", false]
+		];
+
+		const list = document.querySelector('.list');
+
+		function updateLocalStorage(projects) {
+			localStorage.setItem('projects', JSON.stringify(projects));
+		};
+
+		function getLinks(projects) {
+			return projects.map((path, i) => {
+				let text = path[0].replace(/%20/gi, ' ').replace(/index.html/gi, '').replace(/\//gi, '');
+				return `
+					<li>
+						<input type="checkbox" id="project-${i}" data-index="${i}"${path[1] ? 'checked' : ''}>
+						<label for="project-${i}">
+							<a href="${path[0]}">${text}</a>
+						</label>
+					</li>
+				`});
+		};
+
+		function setUpCheckboxes() {
+			const checkboxes = document.querySelectorAll('[type=checkbox]')
+			checkboxes.forEach(checkbox =>
+				checkbox.addEventListener('input', function (e) {
+					index = this.dataset.index;
+					projects[index][1] = this.checked;
+					updateLocalStorage(projects);
+				}))
+		};
+
+		if (localStorage.projects) projects = JSON.parse(localStorage.projects);
+		const links = getLinks(projects);
+		list.innerHTML = links.join('');
+		setUpCheckboxes();
+
+	</script>
+</body>
+
+</html>
