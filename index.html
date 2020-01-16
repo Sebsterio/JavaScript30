@@ -8,7 +8,26 @@
 	<title>JavaScript30 Table of Contents</title>
 	<style>
 		body {
+			margin: 0;
 			background-color: #d9f1ff;
+		}
+
+
+		.progress-bar-wrapper,
+		.progress-bar {
+			height: 20px;
+		}
+
+		.progress-bar-wrapper {
+			padding: 2px;
+			background-color: white;
+			background: linear-gradient(silver, white)
+		}
+
+		.progress-bar {
+			width: 0;
+			background-color: #3691c5;
+			background: linear-gradient(#3691c5, #6ebeec, #1a6e9e);
 		}
 
 		ul {
@@ -35,6 +54,9 @@
 </head>
 
 <body>
+	<div class="progress-bar-wrapper">
+		<div class="progress-bar"></div>
+	</div>
 	<ul class="list"></ul>
 
 	<script>
@@ -69,6 +91,7 @@
 		];
 
 		const list = document.querySelector('.list');
+		const bar = document.querySelector('.progress-bar')
 
 		function updateLocalStorage(projects) {
 			localStorage.setItem('projects', JSON.stringify(projects));
@@ -87,6 +110,15 @@
 				`});
 		};
 
+		function updateProgressBar(projects) {
+			const projectsDone = projects.reduce((acc, proj) => {
+				if (proj[1]) acc++;
+				return acc
+			}, 0);
+			const percentageDone = 100 * projectsDone / projects.length;
+			bar.style.width = percentageDone + "%"
+		}
+
 		function setUpCheckboxes() {
 			const checkboxes = document.querySelectorAll('[type=checkbox]')
 			checkboxes.forEach(checkbox =>
@@ -94,10 +126,14 @@
 					index = this.dataset.index;
 					projects[index][1] = this.checked;
 					updateLocalStorage(projects);
+					updateProgressBar(projects)
 				}))
 		};
 
+
+
 		if (localStorage.projects) projects = JSON.parse(localStorage.projects);
+		updateProgressBar(projects)
 		const links = getLinks(projects);
 		list.innerHTML = links.join('');
 		setUpCheckboxes();
