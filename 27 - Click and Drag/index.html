@@ -41,28 +41,26 @@
     const slider = document.querySelector('.items');
 
     let isDown;
-    let mouseDowntX;
+    let mouseDownX;
     let scrollX;
 
     function startDrag(e) {
       isDown = true;
-      slider.classList.add('active')
-      mouseDowntX = e.pageX - slider.offsetLeft;
-      scrollX = slider.scrollLeft
+      mouseDownX = e.pageX - slider.offsetLeft;
+      scrollX = slider.scrollLeft;
+      slider.classList.add('active');
     }
 
     function stopDrag() {
-      isDown = false
+      isDown = false;
       slider.classList.remove('active')
     }
 
     function drag(e) {
       if (!isDown) return;
-      e.preventDefault();
-      const mouseMoveX = e.pageX - slider.offsetLeft;
-      const walk = mouseDowntX - mouseMoveX;
-      slider.scrollLeft = scrollX + walk;
-
+      const x = e.pageX - slider.offsetLeft;
+      const walk = mouseDownX - x;
+      slider.scrollLeft = scrollX + walk
     }
 
     slider.addEventListener('mousedown', startDrag)
