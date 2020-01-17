@@ -56,6 +56,10 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 - Clicking two boxes while holding Shift checks OR UNCHECKS all boxes in between, to match the state of the first box clicked
 - The same operation is performed on subsequent clicks as long as shift is held (matching the very first box)
 
+#### 11 - Video Player [(view)](https://sebsterio.github.io/JavaScript30/11%20-%20Custom%20Video%20Player/index.html/index.html)
+
+- Dragging a slider doesn't stop on mouseleave
+
 #### 12 - keyLog [(view)](https://sebsterio.github.io/JavaScript30/12%20-%20Key%20Sequence%20Detection/index.html)
 
 - Arbitrary number of availble keywords
