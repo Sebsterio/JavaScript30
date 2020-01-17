@@ -59,6 +59,7 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 #### 11 - Video Player [(view)](https://sebsterio.github.io/JavaScript30/11%20-%20Custom%20Video%20Player/index.html/index.html)
 
 - Dragging a slider doesn't stop on mouseleave
+- Added a Full Screen button
 
 #### 12 - keyLog [(view)](https://sebsterio.github.io/JavaScript30/12%20-%20Key%20Sequence%20Detection/index.html)
 
