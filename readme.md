@@ -84,6 +84,12 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 - Functional programming approach & reusable functions
 
+#### 30 - Whack A Mole [(view)]()
+
+- Bugfix: Moles can be bonked just once on each appearance
+- Bugfix: Moles don't go back up after getting bonked without fully hiding first
+- Moles change appearance when bonked
+
 ## TODO
 
 #### Clock
