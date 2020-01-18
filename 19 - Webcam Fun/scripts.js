@@ -8,6 +8,8 @@ const inputOffset = document.querySelector("#input-offset");
 const checkbox2d = document.querySelector("#checkbox-2d");
 const inputs = document.querySelectorAll(".rgb input");
 const inputAlpha = document.querySelector("#input-alpha");
+const colorFrom = document.querySelector(".color-from");
+const colorTo = document.querySelector(".color-to");
 
 // Input element values
 let activeFilter;
@@ -161,7 +163,12 @@ checkbox2d.addEventListener("input", () => (offset2d = checkbox2d.checked));
 
 // Adjust green screen color range
 inputs.forEach(input =>
-	input.addEventListener("input", () => (levels[input.name] = input.value))
+	input.addEventListener("input", () => {
+		levels[input.name] = input.value;
+		colorFrom.style.backgroundColor = `rgb(${levels.rmin}, ${levels.gmin}, ${levels.bmin})`;
+		colorTo.style.backgroundColor = `rgb(${levels.rmax}, ${levels.gmax}, ${levels.bmax})`;
+		// color.style.background = `linear-gradient(90deg, ${from}, ${to})`;
+	})
 );
 
 // Adjust alpha filter intensity

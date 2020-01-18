@@ -30,29 +30,38 @@
       <input class="alpha-only" type="range" min=0.01 max=0.5 value=0.05 step=0.01 name="alpha" id="input-alpha">
 
       <div class="rgb greenScreen-only">
-        <label for="rmin">Red Min:</label>
-        <input type="range" min=0 max=255 name="rmin">
-        <label for="rmax">Red Max:</label>
-        <input type="range" min=0 max=255 name="rmax">
-
-        <br>
-
-        <label for="gmin">Green Min:</label>
-        <input type="range" min=0 max=255 name="gmin">
-        <label for="gmax">Green Max:</label>
-        <input type="range" min=0 max=255 name="gmax">
-
-        <br>
-
-        <label for="bmin">Blue Min:</label>
-        <input type="range" min=0 max=255 name="bmin">
-        <label for="bmax">Blue Max:</label>
-        <input type="range" min=0 max=255 name="bmax">
+        <div>
+          <label for="rmin">Red Min:</label>
+          <input type="range" min=0 max=255 name="rmin">
+          <br>
+          <label for="gmin">Green Min:</label>
+          <input type="range" min=0 max=255 name="gmin">
+          <br>
+          <label for="bmin">Blue Min:</label>
+          <input type="range" min=0 max=255 name="bmin">
+        </div>
+        <div>
+          <label for="rmax">Red Max:</label>
+          <input type="range" min=0 max=255 name="rmax">
+          <br>
+          <label for="gmax">Green Max:</label>
+          <input type="range" min=0 max=255 name="gmax">
+          <br>
+          <label for="bmax">Blue Max:</label>
+          <input type="range" min=0 max=255 name="bmax">
+        </div>
+        <div>
+          <div class="color color-from"></div>
+          <div class="color color-to"></div>
+        </div>
       </div>
+
+    </div>
+    <div class="player-wrapper">
+      <video class="player"></video>
     </div>
 
     <canvas class="photo"></canvas>
-    <video class="player"></video>
     <div class="strip"></div>
   </div>
 

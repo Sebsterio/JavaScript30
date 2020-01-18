@@ -18,6 +18,12 @@ html {
 	max-width: 150rem;
 	margin: 2rem auto;
 	border-radius: 2px;
+	display: grid;
+	grid-template-areas:
+		"controls player"
+		"photo photo"
+		"strip strip";
+	grid-auto-columns: minmax(10px, auto);
 }
 
 /*clearfix*/
@@ -27,17 +33,26 @@ html {
 	clear: both;
 }
 
-.photo {
-	width: 100%;
-	float: left;
-	/* background-image: url("../pic.jpg"); */
+.controls {
+	grid-area: controls;
+}
+
+.player-wrapper {
+	grid-area: player;
+	height: 1px;
+	z-index: 999;
 }
 
 .player {
-	position: absolute;
-	top: 20px;
-	right: 20px;
+	float: right;
 	width: 200px;
+}
+
+.photo {
+	grid-area: photo;
+	width: 100%;
+	float: left;
+	/* background-image: url("../pic.jpg"); */
 }
 
 body:not(.filter-rgbSplit) .rgbSplit-only {
@@ -55,11 +70,24 @@ body:not(.filter-greenScreen) .greenScreen-only {
 	display: none;
 }
 
+.rgb > div,
+.color {
+	display: inline-block;
+}
+
+.color {
+	margin: 4px;
+	width: 50px;
+	height: 50px;
+	background: grey;
+}
+
 /*
   Strip!
 */
 
 .strip {
+	grid-area: strip;
 	padding: 2rem;
 }
 
