@@ -84,6 +84,13 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 
 - Functional programming approach & reusable functions
 
+#### 18 - Webcam fun [(view)]()
+
+- Flip image horizontally
+- Filters can be selected in UI
+- Filter intensity can be adjusted in UI
+- Bugfix: rgbSplit filter doesn't mix up channels
+
 #### 30 - Whack A Mole [(view)]()
 
 - Bugfix: Moles can be bonked just once on each appearance

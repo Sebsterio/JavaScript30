@@ -30,7 +30,7 @@ html {
 .photo {
 	width: 100%;
 	float: left;
-	background-image: url("../pic.jpg");
+	/* background-image: url("../pic.jpg"); */
 }
 
 .player {
@@ -38,6 +38,21 @@ html {
 	top: 20px;
 	right: 20px;
 	width: 200px;
+}
+
+body:not(.filter-rgbSplit) .rgbSplit-only {
+	/* visibility: hidden; */
+	display: none;
+}
+
+body:not(.filter-alpha) .alpha-only {
+	/* visibility: hidden; */
+	display: none;
+}
+
+body:not(.filter-greenScreen) .greenScreen-only {
+	/* visibility: hidden; */
+	display: none;
 }
 
 /*

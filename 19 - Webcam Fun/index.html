@@ -12,7 +12,24 @@
   <div class="photobooth">
     <div class="controls">
       <button onClick="takePhoto()">Take Photo</button>
-      <div class="rgb">
+
+      <select name="filter" id="select-filter">
+        <option value="redEffect">Red effect</option>
+        <option value="rgbSplit">RGB split</option>
+        <option value="greenScreen">Green screen</option>
+        <option value="alpha">Alpha</option>
+      </select>
+
+      <label class="rgbSplit-only" for="input-offset">Offset</label>
+      <input class="rgbSplit-only" type="range" min=0 max=640 value=20 name="offset" id="input-offset">
+
+      <label class="rgbSplit-only" for="checkbox-2d">Vertical?</label>
+      <input class="rgbSplit-only" type="checkbox" id='checkbox-2d' checked>
+
+      <label class="alpha-only" for="input-alpha">Alpha</label>
+      <input class="alpha-only" type="range" min=0.01 max=0.5 value=0.05 step=0.01 name="alpha" id="input-alpha">
+
+      <div class="rgb greenScreen-only">
         <label for="rmin">Red Min:</label>
         <input type="range" min=0 max=255 name="rmin">
         <label for="rmax">Red Max:</label>
