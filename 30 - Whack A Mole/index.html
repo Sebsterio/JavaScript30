@@ -35,9 +35,14 @@
   </div>
 
   <script>
-    const MIN_TIME = 1000;
-    const MAX_TIME = 1000;
-    const GAME_DURATION = 10000
+    const GAME_DURATION = 20000
+    const MIN_TIME_START = 500;
+    const MAX_TIME_START = 1000;
+    const MIN_TIME_END = 50;
+    const MAX_TIME_END = 250;
+    let minTime; // decrease over time
+    let maxTime; // decrease over time
+    let timeElapsed;
 
     const holes = document.querySelectorAll('.hole');
     const scoreBoard = document.querySelector('.score');
@@ -59,7 +64,7 @@
     }
 
     function peep() {
-      const time = randomTime(MIN_TIME, MAX_TIME)
+      const time = randomTime(minTime, maxTime)
       const hole = randomHole(holes);
 
       if (!hole.classList.contains('ready')) peep()
@@ -71,6 +76,11 @@
           if (!gameOver) peep()
         }, time)
       }
+      // speed up
+      timeElapsed += time;
+      minTime = (timeElapsed / GAME_DURATION) * (MIN_TIME_END - MIN_TIME_START) + MIN_TIME_START
+      maxTime = (timeElapsed / GAME_DURATION) * (MAX_TIME_END - MAX_TIME_START) + MAX_TIME_START
+      console.log(minTime, maxTime)
     }
 
     function whack(e) {
@@ -95,6 +105,9 @@
     function startGame() {
       gameOver = false;
       scoreBoard.innerText = score = 0;
+      timeElapsed = 0;
+      minTime = MIN_TIME_START
+      maxTime = MAX_TIME_START
       peep()
       setTimeout(() => {
         gameOver = true;
@@ -103,7 +116,8 @@
 
 
     moles.forEach(mole => {
-      mole.addEventListener('click', whack)
+      mole.addEventListener('mousedown', whack)
+      mole.addEventListener('touchstart', whack)
     });
 
     window.addEventListener('transitionend', handleTransitionend)
