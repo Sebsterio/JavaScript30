@@ -90,6 +90,7 @@ Grab the course at [https://JavaScript30.com](https://JavaScript30.com)
 - Filters can be selected in UI
 - Filter intensity can be adjusted in UI
 - Bugfix: rgbSplit filter doesn't mix up channels
+- greenScreen min and max colors are visualized in UI
 
 #### 30 - Whack A Mole [(view)]()
 
