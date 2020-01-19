@@ -19,6 +19,21 @@
 
   <script>
 
+    const container = document.querySelector('.speed')
+    const bar = document.querySelector('.speed-bar')
+    const vid = document.querySelector('video')
+
+    const min = 0.5
+    const max = 4
+
+    container.addEventListener('mousemove', function (e) {
+      const yRatio = e.offsetY / this.offsetHeight
+      const rate = yRatio * (max - min) + min;
+      bar.style.height = yRatio * 100 + "%"
+      bar.innerText = rate.toFixed(2) + 'x'
+      vid.playbackRate = rate;
+    })
+
   </script>
 </body>
 
